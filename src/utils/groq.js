@@ -1,5 +1,5 @@
 // src/utils/groq.js
-const MODEL_NAME = "grok-4";
+const MODEL_NAME = "llama3-70b-8192";
 
 const SYSTEM_PROMPT = `You are a social media expert for Cuemath. 
 Return ONLY a valid JSON object. No markdown, no backticks.
@@ -34,26 +34,40 @@ For STORY:
 }`;
 
 async function callGrok(messages) {
-  const apiKey = import.meta.env.VITE_GROQ_API_KEY;
-  if (!apiKey) throw new Error("API Key Missing in .env");
+  const isDev = import.meta.env.DEV;
+  const endpoint = isDev ? "/xai-api/v1/chat/completions" : "/api/generate";
 
-  const response = await fetch("/xai-api/v1/chat/completions", {
+  const headers = {
+    "Content-Type": "application/json",
+  };
+
+  if (isDev) {
+    const apiKey = import.meta.env.VITE_GROQ_API_KEY;
+    if (!apiKey) throw new Error("API Key Missing in .env");
+    headers["Authorization"] = `Bearer ${apiKey}`;
+  }
+
+  const response = await fetch(endpoint, {
     method: "POST",
-    headers: {
-      "Authorization": `Bearer ${apiKey}`,
-      "Content-Type": "application/json",
-    },
+    headers,
     body: JSON.stringify({
       model: MODEL_NAME,
-      messages: messages,
+      messages,
       stream: false,
-      temperature: 0.7
+      temperature: 0.7,
     }),
   });
 
-  const data = await response.json();
+  const raw = await response.text();
+  let data;
+  try {
+    data = JSON.parse(raw);
+  } catch {
+    throw new Error(`Non-JSON response from API (${response.status}).`);
+  }
+
   if (!response.ok) {
-    console.error("xAI Error Details:", data);
+    console.error("API Error Details:", data);
     throw new Error(data.error?.message || "API Error");
   }
 
