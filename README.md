@@ -1,104 +1,69 @@
-# 🎨 Cuemath Social Media Studio
+# Cuemath Social Media Studio
 
-A beautiful AI-powered social media creative studio built with React + Vite + Groq AI.
+AI-powered social content generator for education brands and creators.
+Build carousel posts, single posts, and stories with editable slides, caption generation, and export tools.
 
----
+## Overview
 
-## ⚡ Quick Deploy (15 minutes)
+Cuemath Social Media Studio helps you turn a rough content idea into polished social creatives in seconds.
 
-### Step 1 — Install dependencies locally (to verify it works)
-```bash
-npm install
-npm run dev
-```
-Open http://localhost:5173 — but note: API calls won't work locally without a proxy.
-For local testing, temporarily hardcode your key in `src/utils/groq.js` (change `/api/generate` to call Groq directly).
+What you can do:
+- Generate content in 3 formats: Carousel, Post, Story
+- Edit generated text directly inside slides
+- Regenerate a single carousel slide
+- Generate Instagram-ready captions with hashtags
+- Export one slide as PNG
+- Export all carousel slides as ZIP
 
----
+## Tech Stack
 
-### Step 2 — Push to GitHub
-```bash
-git init
-git add .
-git commit -m "Cuemath Social Studio"
-git remote add origin https://github.com/YOUR_USERNAME/social-media-studio.git
-git push -u origin main
-```
+- React 18
+- Vite 5
+- Lucide React
+- html2canvas
+- JSZip
 
----
+## Features
 
-### Step 3 — Deploy to Vercel (FREE)
+- AI content generation with strict JSON output parsing
+- Multi-format layout handling
+- Theme presets for visual styling
+- Local history restore panel
+- Toast notifications for user feedback
+- Keyboard shortcut support (Ctrl/Cmd + Enter to generate)
+- Caption generation panel with copy-to-clipboard
+- Client-side image and ZIP export
 
-1. Go to **vercel.com** → Sign up with GitHub
-2. Click **"Add New Project"** → Import your repo
-3. Framework: **Vite** (auto-detected)
-4. Click **"Environment Variables"** → Add:
-   - Key: `GROQ_API_KEY`
-   - Value: `gsk_your_actual_groq_key_here`
-5. Click **Deploy**
+## Project Structure
 
-✅ You get a URL like: `https://social-studio.vercel.app`
-
----
-
-## 🏗️ Project Structure
-
-```
 social-media-studio/
-├── api/
-│   └── generate.js          # Vercel serverless function (hides your API key)
-├── src/
-│   ├── components/
-│   │   ├── SlideCanvas.jsx   # Renders individual slides
-│   │   ├── CarouselPreview.jsx # Carousel navigation
-│   │   └── Toast.jsx         # Notification component
-│   ├── utils/
-│   │   ├── groq.js           # Groq API integration
-│   │   ├── slideUtils.js     # Color/style utilities
-│   │   └── export.js         # PNG + ZIP export
-│   ├── App.jsx               # Main application
-│   ├── main.jsx              # Entry point
-│   └── index.css             # Global styles
-├── index.html
-├── vite.config.js
-├── vercel.json               # Vercel routing config
-└── package.json
-```
+- api/
+  - generate.js
+- src/
+  - components/
+    - SlideCanvas.jsx
+    - CarouselPreview.jsx
+    - CaptionPanel.jsx
+    - HistoryPanel.jsx
+    - Toast.jsx
+  - utils/
+    - groq.js
+    - export.js
+    - slideUtils.js
+  - App.jsx
+  - main.jsx
+  - index.css
+- index.html
+- package.json
+- vite.config.js
+- vercel.json
 
----
+## Prerequisites
 
-## ✨ Features
+- Node.js 18 or newer
+- npm 9 or newer
 
-- **3 Formats**: Instagram Post (1:1), Story (9:16), Carousel (6 slides)
-- **AI Generation**: Groq AI (Llama 3 70B) generates structured content
-- **Cuemath Brand**: Purple (#6C3AED) + Gold (#F9A825) design system
-- **Carousel Storytelling**: Hook → Build → Solution → CTA arc
-- **Inline Editing**: Click any text on a slide to edit it
-- **Regenerate Slide**: Regenerate just one slide without losing the rest
-- **Color Themes**: 3 preset themes to switch between
-- **Export PNG**: Export current slide as PNG
-- **Export ZIP**: Export all carousel slides as a ZIP
-- **Zero Cost**: Runs on Vercel free tier + Groq free/paid tier
+## Installation
 
----
-
-## 🔑 Environment Variables
-
-| Variable | Description |
-|---|---|
-| `GROQ_API_KEY` | Your Groq API key (get at console.groq.com) |
-
----
-
-## 🎯 How It Works
-
-1. User types a rough idea (messy, human language)
-2. App sends idea + format to `/api/generate` (Vercel serverless)
-3. Serverless function calls Groq API with structured prompt
-4. Groq returns JSON with headlines, subtext, emojis, slide roles
-5. React renders beautiful CSS-designed slides matching Cuemath brand
-6. User can edit text inline, regenerate slides, switch themes, export
-
----
-
-Built for Cuemath Product Design Assignment 🚀
+~~~bash
+npm install
