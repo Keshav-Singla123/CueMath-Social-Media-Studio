@@ -1,5 +1,6 @@
 // src/utils/groq.js
-const MODEL_NAME = "grok-4";
+const DEV_MODEL_NAME = "grok-4";
+const PROD_MODEL_NAME = "llama3-70b-8192";
 
 const SYSTEM_PROMPT = `You are a social media expert for Cuemath. 
 Return ONLY a valid JSON object. No markdown, no backticks.
@@ -36,6 +37,7 @@ For STORY:
 async function callGrok(messages) {
   const isDev = import.meta.env.DEV;
   const endpoint = isDev ? "/xai-api/v1/chat/completions" : "/api/generate";
+  const modelName = isDev ? DEV_MODEL_NAME : PROD_MODEL_NAME;
 
   const headers = {
     "Content-Type": "application/json",
@@ -51,7 +53,7 @@ async function callGrok(messages) {
     method: "POST",
     headers,
     body: JSON.stringify({
-      model: MODEL_NAME,
+      model: modelName,
       messages,
       stream: false,
       temperature: 0.7,
