@@ -1,6 +1,5 @@
 // src/utils/groq.js
-const DEV_MODEL_NAME = "grok-4";
-const PROD_MODEL_NAME = "llama3-70b-8192";
+const MODEL_NAME = "grok-4";
 
 const SYSTEM_PROMPT = `You are a social media expert for Cuemath. 
 Return ONLY a valid JSON object. No markdown, no backticks.
@@ -35,25 +34,17 @@ For STORY:
 }`;
 
 async function callGrok(messages) {
-  const isDev = import.meta.env.DEV;
-  const endpoint = isDev ? "/xai-api/v1/chat/completions" : "/api/generate";
-  const modelName = isDev ? DEV_MODEL_NAME : PROD_MODEL_NAME;
+  const endpoint = "/api/generate";
 
   const headers = {
     "Content-Type": "application/json",
   };
 
-  if (isDev) {
-    const apiKey = import.meta.env.VITE_GROQ_API_KEY;
-    if (!apiKey) throw new Error("API Key Missing in .env");
-    headers["Authorization"] = `Bearer ${apiKey}`;
-  }
-
   const response = await fetch(endpoint, {
     method: "POST",
     headers,
     body: JSON.stringify({
-      model: modelName,
+      model: MODEL_NAME,
       messages,
       stream: false,
       temperature: 0.7,
