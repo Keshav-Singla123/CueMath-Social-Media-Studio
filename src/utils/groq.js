@@ -1,5 +1,5 @@
 // src/utils/groq.js
-const MODEL_NAME = "llama3-70b-8192";
+const MODEL_NAME = "grok-4";
 
 const SYSTEM_PROMPT = `You are a social media expert for Cuemath. 
 Return ONLY a valid JSON object. No markdown, no backticks.
